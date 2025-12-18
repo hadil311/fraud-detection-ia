@@ -1,0 +1,13 @@
+# Configuration PostgreSQL (EXEMPLE - Ne pas commit le vrai mot de passe)
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: VOTRE_MOT_DE_PASSE_ICI  # À remplacer
+  database: fraud_detection_db
+
+# Chemins
+paths:
+  data_raw: data/raw/
+  data_processed: data/processed/
+  models: data/models/

@@ -1,0 +1,108 @@
+{
+  "date_execution": "2025-12-17T10:48:39.287189",
+  "etapes": [
+    "Extract",
+    "Transform",
+    "Load"
+  ],
+  "sources_extraites": [
+    "transactions",
+    "clients",
+    "logs"
+  ],
+  "stats_nettoyage": {
+    "transactions": {
+      "avant": {
+        "nom": "transactions",
+        "nb_lignes": 10000,
+        "nb_colonnes": 15,
+        "valeurs_manquantes": {
+          "merchant_category": {
+            "count": 1371,
+            "pct": 13.71
+          },
+          "ville": {
+            "count": 328,
+            "pct": 3.28
+          },
+          "latitude": {
+            "count": 328,
+            "pct": 3.28
+          },
+          "longitude": {
+            "count": 328,
+            "pct": 3.28
+          }
+        },
+        "doublons": 0,
+        "anomalies": {
+          "montants_negatifs": 0,
+          "montants_extremes": 0,
+          "coordonnees_invalides": 0
+        }
+      },
+      "apres": {
+        "nom": "transactions",
+        "nb_lignes": 10000,
+        "nb_colonnes": 15,
+        "valeurs_manquantes": {},
+        "doublons": 0,
+        "anomalies": {
+          "montants_negatifs": 0,
+          "montants_extremes": 0,
+          "coordonnees_invalides": 0
+        }
+      }
+    },
+    "clients": {
+      "avant": {
+        "nom": "clients",
+        "nb_lignes": 4333,
+        "nb_colonnes": 9,
+        "valeurs_manquantes": {
+          "score_credit": {
+            "count": 447,
+            "pct": 10.32
+          },
+          "date_derniere_fraude": {
+            "count": 4117,
+            "pct": 95.02
+          }
+        },
+        "doublons": 0,
+        "anomalies": {}
+      },
+      "apres": {
+        "nom": "clients",
+        "nb_lignes": 4333,
+        "nb_colonnes": 9,
+        "valeurs_manquantes": {
+          "date_derniere_fraude": {
+            "count": 4117,
+            "pct": 95.02
+          }
+        },
+        "doublons": 0,
+        "anomalies": {}
+      }
+    }
+  },
+  "donnees_finales": {
+    "transactions": {
+      "nb_lignes": 10000,
+      "nb_colonnes": 15
+    },
+    "clients": {
+      "nb_lignes": 4333,
+      "nb_colonnes": 9
+    },
+    "logs": {
+      "nb_lignes": 50000,
+      "nb_colonnes": 9
+    },
+    "dataset_final": {
+      "nb_lignes": 10000,
+      "nb_colonnes": 25
+    }
+  }
+}

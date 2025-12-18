@@ -1,0 +1,236 @@
+{
+  "date_audit": "2025-12-17T10:37:38.604502",
+  "version": "1.0",
+  "auditeur": "Chef de Projet Data & IA",
+  "analyse_besoin": {
+    "entreprise": {
+      "nom": "Banque Régionale ACME",
+      "secteur": "Services Financiers - Banque Retail",
+      "problematique": "Perte de 50M€/an en fraudes non détectées",
+      "nb_clients": 2500000,
+      "nb_transactions_jour": 10000000
+    },
+    "besoins_identifies": [
+      "Détection automatique fraudes en temps réel",
+      "Réduction taux faux positifs (actuellement 15%)",
+      "Explicabilité des décisions pour conformité réglementaire",
+      "Dashboard temps réel pour analystes fraude",
+      "Conformité RGPD et directives bancaires (DSP2)"
+    ],
+    "contraintes": {
+      "latence_max": "< 100ms par transaction",
+      "disponibilite": "99.9% (24/7)",
+      "faux_positifs_max": "< 2%",
+      "recall_min": "> 80%",
+      "rgpd": true,
+      "pci_dss": true
+    },
+    "objectifs_business": {
+      "reduction_pertes": "90% (45M€/an économisés)",
+      "reduction_temps_traitement": "85%",
+      "amelioration_satisfaction_client": "+40%",
+      "roi_attendu": "> 1000% année 1"
+    },
+    "ecosysteme_technique": {
+      "si_actuel": "IBM Mainframe + Oracle DB",
+      "api_disponibles": [
+        "Core Banking",
+        "Payment Gateway",
+        "KYC"
+      ],
+      "cloud": "Migration AWS en cours",
+      "equipes": {
+        "it": 50,
+        "fraude": 25,
+        "data": 5
+      }
+    }
+  },
+  "cartographie": {
+    "source_1_transactions": {
+      "nom": "Transactions Bancaires",
+      "type": "SQL - PostgreSQL",
+      "localisation": "Core Banking System",
+      "format": "Base relationnelle",
+      "frequence_maj": "Temps réel (streaming)",
+      "volumetrie": {
+        "nb_lignes_jour": 10000000,
+        "nb_lignes_total": 3650000000,
+        "taille_go": 500,
+        "croissance_mensuelle_go": 40
+      },
+      "variables": {
+        "transaction_id": "VARCHAR(50) - Identifiant unique",
+        "client_id": "VARCHAR(50) - ID client pseudonymisé",
+        "montant": "DECIMAL(10,2) - Montant transaction",
+        "devise": "VARCHAR(3) - Code ISO devise",
+        "date_heure": "TIMESTAMP - Date/heure transaction",
+        "type_transaction": "VARCHAR(50) - Paiement/Retrait/Virement",
+        "type_carte": "VARCHAR(20) - Débit/Crédit/Prépayée",
+        "merchant_id": "VARCHAR(50) - Identifiant commerçant",
+        "merchant_category": "VARCHAR(100) - Catégorie commerce",
+        "pays": "VARCHAR(2) - Code pays ISO",
+        "ville": "VARCHAR(100) - Ville transaction",
+        "latitude": "DECIMAL(9,6) - Coordonnées GPS",
+        "longitude": "DECIMAL(9,6) - Coordonnées GPS",
+        "canal": "VARCHAR(50) - Web/Mobile/ATM/POS",
+        "is_fraud": "BOOLEAN - Label fraude (historique)"
+      },
+      "nb_variables": 15,
+      "qualite": {
+        "completude": 0.97,
+        "valeurs_manquantes_pct": 3,
+        "doublons_pct": 0.01
+      }
+    },
+    "source_2_clients": {
+      "nom": "Données Clients (KYC)",
+      "type": "SQL - PostgreSQL",
+      "localisation": "CRM System",
+      "format": "Base relationnelle",
+      "frequence_maj": "Hebdomadaire",
+      "volumetrie": {
+        "nb_lignes_total": 2500000,
+        "taille_go": 5,
+        "croissance_mensuelle_go": 0.2
+      },
+      "variables": {
+        "client_id": "VARCHAR(50)",
+        "age": "INT",
+        "sexe": "VARCHAR(1)",
+        "code_postal": "VARCHAR(10)",
+        "anciennete_mois": "INT",
+        "nb_produits": "INT",
+        "revenu_annuel_tranche": "VARCHAR(20)",
+        "score_credit": "INT",
+        "date_derniere_fraude": "DATE"
+      },
+      "nb_variables": 9,
+      "qualite": {
+        "completude": 0.89,
+        "valeurs_manquantes_pct": 11,
+        "sensibilite_rgpd": "HAUTE"
+      }
+    },
+    "source_3_comportements": {
+      "nom": "Logs Comportementaux Web/Mobile",
+      "type": "NoSQL - MongoDB",
+      "localisation": "Digital Banking Platform",
+      "format": "Documents JSON",
+      "frequence_maj": "Temps réel (streaming)",
+      "volumetrie": {
+        "nb_documents_jour": 50000000,
+        "nb_documents_total": 18250000000,
+        "taille_go": 2000,
+        "croissance_mensuelle_go": 150
+      },
+      "variables": {
+        "session_id": "string",
+        "client_id": "string",
+        "timestamp": "datetime",
+        "action": "string - login/navigation/transaction",
+        "device_type": "string",
+        "os": "string",
+        "browser": "string",
+        "ip_address": "string - pseudonymisée",
+        "geolocation": "object",
+        "duree_session_sec": "int"
+      },
+      "nb_variables": 10,
+      "qualite": {
+        "completude": 0.95,
+        "valeurs_manquantes_pct": 5
+      }
+    },
+    "source_4_historique_fraudes": {
+      "nom": "Historique Fraudes Confirmées",
+      "type": "Fichier CSV",
+      "localisation": "Équipe Fraude - Sharepoint",
+      "format": "CSV (UTF-8)",
+      "frequence_maj": "Quotidienne",
+      "volumetrie": {
+        "nb_lignes_total": 250000,
+        "taille_mo": 50,
+        "periode": "3 ans historique"
+      },
+      "variables": {
+        "fraude_id": "Identifiant unique",
+        "transaction_id": "Lien vers transaction",
+        "type_fraude": "Vol carte/Phishing/Usurpation identité",
+        "montant_perdu": "Montant",
+        "date_detection": "Date",
+        "statut": "Résolu/En cours/Non résolu",
+        "feedback_client": "Texte libre"
+      },
+      "nb_variables": 7,
+      "qualite": {
+        "completude": 0.92,
+        "valeurs_manquantes_pct": 8
+      }
+    }
+  },
+  "faisabilite": {
+    "volumetrie": {
+      "statut": "✅ FAISABLE",
+      "commentaire": "Volumétrie importante mais gérable avec architecture Big Data",
+      "recommandation": "PostgreSQL avec partitionnement + MongoDB pour logs"
+    },
+    "qualite_donnees": {
+      "statut": "✅ BONNE",
+      "completude_moyenne": 0.93,
+      "commentaire": "Qualité suffisante pour ML (>90%)",
+      "actions_requises": [
+        "Imputation valeurs manquantes",
+        "Nettoyage doublons",
+        "Validation cohérence géographique"
+      ]
+    },
+    "tempo_realite": {
+      "statut": "✅ FAISABLE",
+      "latence_requise_ms": 100,
+      "latence_attendue_ms": 45,
+      "commentaire": "Architecture streaming Kafka + Redis permettra respect latence"
+    },
+    "rgpd_ethique": {
+      "statut": "⚠️ ATTENTION HAUTE",
+      "sensibilite": "TRÈS HAUTE - Données bancaires",
+      "actions_requises": [
+        "Pseudonymisation obligatoire",
+        "Chiffrement AES-256 au repos",
+        "Audit DPO avant déploiement",
+        "Droit à l'explication (SHAP)",
+        "Registre traitements RGPD"
+      ]
+    },
+    "ml_feasibility": {
+      "statut": "✅ EXCELLENT",
+      "historique_labels": 250000,
+      "taux_fraude": 0.0025,
+      "commentaire": "Suffisant pour ML supervisé avec techniques SMOTE",
+      "algorithms_recommandes": [
+        "Random Forest (baseline)",
+        "XGBoost (recommandé)",
+        "LSTM (séquences temporelles)",
+        "Isolation Forest (anomalies nouvelles)"
+      ]
+    },
+    "synthese": {
+      "faisabilite_globale": "✅ PROJET FAISABLE",
+      "risques_majeurs": [
+        "Conformité RGPD (mitigé par pseudonymisation)",
+        "Déséquilibre classes 0.25% (mitigé par SMOTE)",
+        "Latence temps réel (mitigé par Redis)"
+      ],
+      "budget_estime": "80-100k€",
+      "duree_estimee_mois": 6,
+      "equipe_recommandee": {
+        "data_scientists": 3,
+        "data_engineers": 2,
+        "devops": 1,
+        "juriste_rgpd": 1,
+        "responsable_ethique": 1,
+        "analystes_metier": 2
+      }
+    }
+  }
+}
